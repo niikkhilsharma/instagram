@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
 		const searchParams = reqUrl.searchParams
 		const username = searchParams.get('username') || 'niikkhilsharma'
 		console.log(username)
-		const response = await fetch('https://www.instagram.com/api/v1/users/web_profile_info/?username=niikkhilsharma', {
+		const response = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${username}`, {
 			headers: {
 				accept: '*/*',
 				'accept-language': 'en-GB,en;q=0.9',
