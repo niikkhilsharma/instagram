@@ -28,9 +28,6 @@ export async function GET(request: NextRequest) {
 				'x-ig-www-claim': '0',
 				'x-requested-with': 'XMLHttpRequest',
 				'x-web-session-id': '86893x:brjxp4:52x680',
-				// cookie:
-				// 	'csrftoken=Qr9BJNRtc8Rbh23osLyWWZ; datr=IDcSaZrsvNtsw_hof_ht39QJ; ig_did=288A5782-482D-4DEC-90E2-B0C6AD90BF04; wd=831x835; mid=aRI3IAAEAAFCd_vaD5LFAwYyGGBX',
-				Referer: 'https://www.instagram.com/niikkhilsharma/',
 			},
 			body: null,
 			method: 'GET',
