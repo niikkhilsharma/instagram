@@ -4,7 +4,8 @@ export async function GET(request: NextRequest) {
 	const reqUrl = new URL(request.url)
 	const searchParams = reqUrl.searchParams
 	const username = searchParams.get('username') || 'niikkhilsharma'
-	console.log(username)
+	const start_count = searchParams.get('count') || '33'
+	const after = searchParams.get('after') || ''
 
 	try {
 		const response = await fetch('https://www.instagram.com/graphql/query', {
@@ -31,14 +32,18 @@ export async function GET(request: NextRequest) {
 				'x-fb-lsd': 'g3mgOEwceRE0nZvUdTGXMN',
 				'x-ig-app-id': '936619743392459',
 				'x-root-field-name': 'xdt_api__v1__feed__user_timeline_graphql_connection',
-				// cookie:
-				// 	'datr=k30aZwcCjCcBArf7Z1hoG7OU; ig_nrcb=1; ps_l=1; ps_n=1; mid=ZzmRKgAEAAEKO7X7WsjD4WzR0m9c; csrftoken=tKmlwh2N4e2UVdAgy9lp5XGBOXpwhBUW; ig_did=40B1DB19-F4B4-4AA6-A42E-1D8E5528B620; ds_user_id=54530955050; sessionid=54530955050%3ADjkjGdx3hRD2ft%3A13%3AAYgpB2eiKnu9163bF1H78dUz8QGAwNaSXGmCDQpHmw; rur="CCO\\05454530955050\\0541794587440:01fe02214352c28e5732a6ab8685aef6773bb80cbb5179ac9d0ed954a0eeec8625c9c0ba"; wd=831x801',
+				cookie:
+					'datr=k30aZwcCjCcBArf7Z1hoG7OU; ig_nrcb=1; ps_l=1; ps_n=1; mid=ZzmRKgAEAAEKO7X7WsjD4WzR0m9c; csrftoken=tKmlwh2N4e2UVdAgy9lp5XGBOXpwhBUW; ig_did=40B1DB19-F4B4-4AA6-A42E-1D8E5528B620; ds_user_id=54530955050; sessionid=54530955050%3ADjkjGdx3hRD2ft%3A13%3AAYgpB2eiKnu9163bF1H78dUz8QGAwNaSXGmCDQpHmw; rur="CCO\\05454530955050\\0541794587440:01fe02214352c28e5732a6ab8685aef6773bb80cbb5179ac9d0ed954a0eeec8625c9c0ba"; wd=831x801',
 			},
-			body: `av=17841454571506369&__d=www&__user=0&__a=1&__req=6&__hs=20405.HCSV2%3Ainstagram_web_pkg.2.1...0&dpr=2&__ccg=EXCELLENT&__rev=1029836658&__s=qd0wic%3Arv40ke%3A476bmr&__hsi=7572248314705229472&__dyn=7xeUjG1mxu1syUbFp41twpUnwgU7SbzEdF8aUco2qwJxS0DU2wx609vCwjE1EE2Cw8G11wBz81s8hwGxu786a3a1YwBgao6C0Mo2swlo8od8-U2zxe2GewGw9a361qwuEjUlwhEe87q10w51wLyESE7i3vwDwHg2ZwrUdUbGwmk0zU8oC1Iwqo5p0OwUQp1yUb8jK5V89F8uwm8jxK2K0P8KmUhw4rwhEcE4ei16wAw&__csr=gJ1b2qOhkeOgPiZIDcBZvESTkBjmhbSJtyrSay5gyt398PKpa5FKrJ4qAJ6Vp5Rl7KFcyAjjGtrWhpaho9KmmLD-nnxe4GhoSVemDCxOFbACAhpaUnDz99-bzKaBUOaB8V48-iiqGBy9VWg9IxESRzQ4EJ2ay8y48CjxLh9ay8K4aUGeAAjxHAzF9WggwEyUf8Gfw4Fw-zoiw05qUwpEKu2G0Yoy0JU88-aK12xnw27kq8gK2-U2NDy5mZ5UgwmE0IZ0UwNw12eq0S83Tw13gw1Vbb8642m1-Cg-6m0Ai1W2y3106Zxic8u0YU1bo-8O04Upox2VA0lS10ATg4dw10EOxd97y0I0l-Uck1Hw0oqU0gVxC0bFwhm0aWw0Q0w4kw&__hsdp=l1B0YTW2c78aHJBkIkQjroSwiQt4z9auK_B8oySosSbosLBoCAchNgg4wiF3ppYgl0jEhyEx0vU5EzGEy2q4mq44jzECaBwtEIV42u8U2vG0LA58fU6y1YWK2y4ojzEfEnjUaoS4Ufuu1tx-368xO1zweC7U2Nw2TUdo5u0pu0gu1mwPw8W0E8K581z83awfi0pO1zwTxe0mq1PwmUp80MUnw&__hblp=0vEfE2bxOeAwr86i3m0RU5e3h3UdElyFawLHxrxfCGmbUym3C3O6oK4FEzwRw-z8G8yqwEx-541vix6ifDxKqdyU4W1YqK2y4ojzFoixO8yUJfwFzojwhU5S4oS5orGm78K3q2211wau7VE2GwtE3Iw4UwgEdoO4UdEuwbO0KU11U5q3e3C1kx20xoCbxiawhU1eo3awdq7o1D8vwIx2m2Kbxe68420PEdV458Su7oaE88cVEp8dxa17wmEnwjE&__sjsp=l1B0YTA7l1O2GXplbN3hdJzq1bhQicAFWX-kxy4hNPoJ1S-4qgN750&__comet_req=7&fb_dtsg=NAfum_GPaeHTdhtq18HAJ20rf3nEM777RHNNGPxcE0eJbA60lEpcbbg%3A17854575481098892%3A1762277305&jazoest=26073&lsd=g3mgOEwceRE0nZvUdTGXMN&__spin_r=1029836658&__spin_b=trunk&__spin_t=1763051449&fb_api_caller_class=RelayModern&fb_api_req_friendly_name=PolarisProfilePostsQuery&server_timestamps=true&variables=%7B%22data%22%3A%7B%22count%22%3A12%2C%22include_reel_media_seen_timestamp%22%3Atrue%2C%22include_relationship_info%22%3Atrue%2C%22latest_besties_reel_media%22%3Atrue%2C%22latest_reel_media%22%3Atrue%7D%2C%22username%22%3A%22${username}%22%2C%22__relay_internal__pv__PolarisIsLoggedInrelayprovider%22%3Atrue%7D&doc_id=32201987959445177`,
+			body: `av=17841454571506369&__d=www&__user=0&__a=1&__req=6&__hs=20405.HCSV2:instagram_web_pkg.2.1...0&dpr=2&__ccg=EXCELLENT&__rev=1029836658&__s=qd0wic:rv40ke:476bmr&__hsi=7572248314705229472&__dyn=7xeUjG1mxu1syUbFp41twpUnwgU7SbzEdF8aUco2qwJxS0DU2wx609vCwjE1EE2Cw8G11wBz81s8hwGxu786a3a1YwBgao6C0Mo2swlo8od8-U2zxe2GewGw9a361qwuEjUlwhEe87q10w51wLyESE7i3vwDwHg2ZwrUdUbGwmk0zU8oC1Iwqo5p0OwUQp1yUb8jK5V89F8uwm8jxK2K0P8KmUhw4rwhEcE4ei16wAw&__csr=gJ1b2qOhkeOgPiZIDcBZvESTkBjmhbSJtyrSay5gyt398PKpa5FKrJ4qAJ6Vp5Rl7KFcyAjjGtrWhpaho9KmmLD-nnxe4GhoSVemDCxOFbACAhpaUnDz99-bzKaBUOaB8V48-iiqGBy9VWg9IxESRzQ4EJ2ay8y48CjxLh9ay8K4aUGeAAjxHAzF9WggwEyUf8Gfw4Fw-zoiw05qUwpEKu2G0Yoy0JU88-aK12xnw27kq8gK2-U2NDy5mZ5UgwmE0IZ0UwNw12eq0S83Tw13gw1Vbb8642m1-Cg-6m0Ai1W2y3106Zxic8u0YU1bo-8O04Upox2VA0lS10ATg4dw10EOxd97y0I0l-Uck1Hw0oqU0gVxC0bFwhm0aWw0Q0w4kw&__hsdp=l1B0YTW2c78aHJBkIkQjroSwiQt4z9auK_B8oySosSbosLBoCAchNgg4wiF3ppYgl0jEhyEx0vU5EzGEy2q4mq44jzECaBwtEIV42u8U2vG0LA58fU6y1YWK2y4ojzEfEnjUaoS4Ufuu1tx-368xO1zweC7U2Nw2TUdo5u0pu0gu1mwPw8W0E8K581z83awfi0pO1zwTxe0mq1PwmUp80MUnw&__hblp=0vEfE2bxOeAwr86i3m0RU5e3h3UdElyFawLHxrxfCGmbUym3C3O6oK4FEzwRw-z8G8yqwEx-541vix6ifDxKqdyU4W1YqK2y4ojzFoixO8yUJfwFzojwhU5S4oS5orGm78K3q2211wau7VE2GwtE3Iw4UwgEdoO4UdEuwbO0KU11U5q3e3C1kx20xoCbxiawhU1eo3awdq7o1D8vwIx2m2Kbxe68420PEdV458Su7oaE88cVEp8dxa17wmEnwjE&__sjsp=l1B0YTA7l1O2GXplbN3hdJzq1bhQicAFWX-kxy4hNPoJ1S-4qgN750&__comet_req=7&fb_dtsg=NAfum_GPaeHTdhtq18HAJ20rf3nEM777RHNNGPxcE0eJbA60lEpcbbg:17854575481098892:1762277305&jazoest=26073&lsd=g3mgOEwceRE0nZvUdTGXMN&__spin_r=1029836658&__spin_b=trunk&__spin_t=1763051449&fb_api_caller_class=RelayModern&fb_api_req_friendly_name=PolarisProfilePostsQuery&server_timestamps=true&variables={"after":"${after}","data":{"count":${start_count},"include_reel_media_seen_timestamp":true,"include_relationship_info":true,"latest_besties_reel_media":true,"latest_reel_media":true},"username":"${username}","__relay_internal__pv__PolarisIsLoggedInrelayprovider":true}&doc_id=32201987959445177`,
 			method: 'POST',
 		})
 		const data = await response.json()
-		return NextResponse.json(data)
+		const has_next_page = data.data.xdt_api__v1__feed__user_timeline_graphql_connection.page_info.has_next_page
+		const has_previous_page = data.data.xdt_api__v1__feed__user_timeline_graphql_connection.page_info.has_previous_page
+		const end_cursor = data.data.xdt_api__v1__feed__user_timeline_graphql_connection.page_info.end_cursor
+
+		return NextResponse.json({ ...data, has_next_page, has_previous_page, end_cursor })
 	} catch (error) {
 		console.error('Error fetching Instagram user details:', error)
 		return NextResponse.json({ error: 'Failed to fetch user details' }, { status: 500 })
